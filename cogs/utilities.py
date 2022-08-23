@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-
+import os
+import datetime
 
 class Utilities(commands.Cog):
     def __init__(self, client):
@@ -58,6 +59,18 @@ Lmao this isn't what the bot is supposed to do. The developer has written the co
         # await interaction.response.defer()
         await interaction.response.send_message(f"Yo {name}", ephemeral=True)
 
+    @app_commands.command(name = "study_event", description="Create a study event")
+    @app_commands.describe(
+        name="The name of the study event",
+        description="The description of the study event",
+        channel_id="The id of the study event's channel"
+    )
+    async def _study_event(self, interaction: discord.Interaction, name: str, description:str, channel_id:int = 952844838280249365):
+        guild = interaction.guild
+        channel = guild.get_channel(channel_id)
+        start_time:datetime.datetime = datetime.datetime.now().astimezone()
+        await guild.create_scheduled_event(name=name, description=description, channel=channel, start_time = start_time+datetime.timedelta(hours=5, minutes=35))
+        await interaction.response.send_message(f"{name} event has been created") 
 
 async def setup(client):
     await client.add_cog(Utilities(client))
