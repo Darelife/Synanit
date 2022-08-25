@@ -4,6 +4,12 @@ from discord import app_commands
 import os
 import datetime
 
+image_list = os.listdir("data/images/study")
+imgList = []
+for i in image_list:
+    i = i[:-4]
+    imgList.append(i)
+imgStr = (", ".join(imgList))
 class Utilities(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -63,14 +69,21 @@ Lmao this isn't what the bot is supposed to do. The developer has written the co
     @app_commands.describe(
         name="The name of the study event",
         description="The description of the study event",
-        channel_id="The id of the study event's channel"
+        channel_id="The id of the study event's channel",
+        image=imgStr
     )
-    async def _study_event(self, interaction: discord.Interaction, name: str, description:str, channel_id:int = 952844838280249365):
+    async def _study_event(self, interaction: discord.Interaction, name: str, description:str, channel_id:str = "952844838280249365", image:str = "realistic_image_of_a_boy_studying"):
+        with open(f"data/images/study/{image}.png", "rb") as image_file:
+            #data\images\study\1Morningstudy.png
+            img = image_file.read()
+        await interaction.response.defer()
+        channel_id = int(channel_id)
         guild = interaction.guild
         channel = guild.get_channel(channel_id)
         start_time:datetime.datetime = datetime.datetime.now().astimezone()
-        await guild.create_scheduled_event(name=name, description=description, channel=channel, start_time = start_time+datetime.timedelta(hours=5, minutes=35))
-        await interaction.response.send_message(f"{name} event has been created") 
+        a = await guild.create_scheduled_event(name=name, description=description, channel=channel, start_time = start_time+datetime.timedelta(minutes=5), image=img)
+        id = a.id
+        await interaction.edit_original_response(content = f"{name} event has been created\nhttps://discord.com/events/{guild.id}/{id}") 
 
 async def setup(client):
     await client.add_cog(Utilities(client))
