@@ -2,9 +2,11 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import os
+from libs import secrets
 import datetime
 
-image_list = os.listdir("data/images/study")
+folderlocation = secrets.folderLocation
+image_list = os.listdir(f"{folderlocation}/data/images/study")
 imgList = []
 for i in image_list:
     i = i[:-4]
@@ -73,7 +75,7 @@ Lmao this isn't what the bot is supposed to do. The developer has written the co
         image=imgStr
     )
     async def _study_event(self, interaction: discord.Interaction, name: str, description:str, channel_id:str = "952844838280249365", image:str = "realistic_image_of_a_boy_studying"):
-        with open(f"data/images/study/{image}.png", "rb") as image_file:
+        with open(f"{folderlocation}/data/images/study/{image}.png", "rb") as image_file:
             #data\images\study\1Morningstudy.png
             img = image_file.read()
         await interaction.response.defer()
