@@ -16,6 +16,7 @@ import discord
 
 from libs import secrets
 
+# pip install -r requirements.txt
 
 class Synanit(Bot):
     def __init__(self):

@@ -1,0 +1,8 @@
+logging
+discord>=2.0.0
+datetime
+json
+os
+copy
+typing
+traceback
