@@ -34,7 +34,7 @@ class Synanit(Bot):
 client = Synanit()
 
 client.run(
-    secrets.TOKEN,
-    log_level=logging.DEBUG
+    secrets.TOKEN
+    # log_level=logging.DEBUG
     # log_handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 )
